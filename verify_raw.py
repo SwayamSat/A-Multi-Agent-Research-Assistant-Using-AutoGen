@@ -16,7 +16,17 @@ def test_request(model_name):
     
     data = {
         "model": model_name,
-        "messages": [{"role": "user", "content": "Hello!"}],
+        "messages": [
+            {"role": "system", "content": """You are an expert Research Topic Refiner.
+Your goal is to help the user clarify and refine their research topic.
+1. Analyze the user's initial query.
+2. Suggest 3-5 subtopics or specific research directions.
+3. Ask clarifying questions if the topic is too broad.
+4. Output the REFINED TOPIC clearly.
+Reply with 'TERMINATE' when your task is complete."""},
+            {"role": "user", "content": "Hello!"},
+            {"role": "user", "content": "Extra message"}
+        ],
         "max_tokens": 10
     }
     

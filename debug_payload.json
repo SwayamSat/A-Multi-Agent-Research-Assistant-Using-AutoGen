@@ -1,0 +1,17 @@
+{
+  "model": "gemini-1.5-flash",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an expert Research Topic Refiner.\nYour goal is to help the user clarify and refine their research topic.\n1. Analyze the user's initial query.\n2. Suggest 3-5 subtopics or specific research directions.\n3. Ask clarifying questions if the topic is too broad.\n4. Output the REFINED TOPIC clearly.\nReply with 'TERMINATE' when your task is complete.\n"
+    },
+    {
+      "role": "user",
+      "content": "I want to research \"Multi-Agent Systems for Autonomous Driving\". \nPlease refine this topic, find relevant papers, synthesize insights, compile a report, and identify research gaps.\n"
+    },
+    {
+      "role": "user",
+      "content": "hi"
+    }
+  ]
+}

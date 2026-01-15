@@ -154,8 +154,12 @@ class CustomGeminiClient(ChatCompletionClient):
 
         # DEBUG PRINT
         print(f"DEBUG: URL={self.base_url}")
-        print(f"DEBUG: Payload={json.dumps(payload, indent=2)}")
-
+        try:
+            with open("debug_payload.json", "w") as f:
+                json.dump(payload, f, indent=2)
+        except Exception as e:
+            print(f"DEBUG: Failed to write payload: {e}")
+            
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}"

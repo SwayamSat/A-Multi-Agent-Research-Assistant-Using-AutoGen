@@ -23,7 +23,7 @@ async def run_workflow():
     # Initialize Model Client using CustomGeminiClient
     model_client = CustomGeminiClient(
         api_key=api_key,
-        model="gemini-2.5-flash-preview-09-2025"
+        model="gemini-2.5-flash"
     )
 
     # Prepare Tools

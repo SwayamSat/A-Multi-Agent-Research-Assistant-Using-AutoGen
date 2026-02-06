@@ -19,7 +19,7 @@ async def verify():
     print(f"Using base_url: {base_url}")
     
     client = OpenAIChatCompletionClient(
-        model="gemini-1.5-flash",
+        model="gemini-2.5-flash",
         api_key=api_key,
         base_url=base_url
     )

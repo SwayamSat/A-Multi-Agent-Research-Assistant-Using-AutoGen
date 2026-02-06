@@ -11,7 +11,7 @@ def get_llm():
     
     # Custom Gemini Client wrapped for CrewAI/LangChain
     return LLM(
-        model="gemini/gemini-1.5-pro", # Using 1.5 Pro for better reasoning
+        model="gemini/gemini-2.5-flash-preview-09-2025", # Using available Flash model
         api_key=api_key,
         temperature=0.7
     )

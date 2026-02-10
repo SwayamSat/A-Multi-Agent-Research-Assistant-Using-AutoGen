@@ -7,6 +7,26 @@ export function useResearchStream() {
     const [isLoading, setIsLoading] = useState(false);
     const abortControllerRef = useRef(null);
 
+    const handleEvent = (event) => {
+        if (event.type === 'status') {
+            setStatus(prev => ({ ...prev, [event.agent]: event.status }));
+            if (event.status === 'working' || event.status === 'planning') {
+                setActiveAgent(event.agent);
+            } else if (event.status === 'finished') {
+                setActiveAgent(null);
+            }
+        } else if (event.type === 'message') {
+            setMessages(prev => [...prev, {
+                agent: event.agent,
+                content: event.content,
+                type: 'agent',
+                timestamp: Date.now()
+            }]);
+        } else if (event.type === 'error') {
+            setMessages(prev => [...prev, { type: 'error', content: event.content, timestamp: Date.now() }]);
+        }
+    };
+
     const startResearch = async (topic) => {
         setIsLoading(true);
         setMessages([]);
@@ -57,26 +77,6 @@ export function useResearchStream() {
         } finally {
             setIsLoading(false);
             setActiveAgent(null);
-        }
-    };
-
-    const handleEvent = (event) => {
-        if (event.type === 'status') {
-            setStatus(prev => ({ ...prev, [event.agent]: event.status }));
-            if (event.status === 'working' || event.status === 'planning') {
-                setActiveAgent(event.agent);
-            } else if (event.status === 'finished') {
-                setActiveAgent(null);
-            }
-        } else if (event.type === 'message') {
-            setMessages(prev => [...prev, {
-                agent: event.agent,
-                content: event.content,
-                type: 'agent',
-                timestamp: Date.now()
-            }]);
-        } else if (event.type === 'error') {
-            setMessages(prev => [...prev, { type: 'error', content: event.content, timestamp: Date.now() }]);
         }
     };
 

@@ -2,7 +2,7 @@ import os
 import json
 import asyncio
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -62,11 +62,11 @@ def run_research_agents(request: ResearchRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/research-stream")
-async def stream_research_agents(request: ResearchRequest):
+async def stream_research_agents(request: Request, body: ResearchRequest):
     """
     Streaming endpoint using Server-Sent Events (SSE).
     """
-    topic = request.topic
+    topic = body.topic
     if not topic:
         raise HTTPException(status_code=400, detail="Topic is required")
 
@@ -80,6 +80,10 @@ async def stream_research_agents(request: ResearchRequest):
             
             # Using stream with stream_mode="updates" ensures we get the output of each node as it finishes
             for output in graph.stream(initial_state, stream_mode="updates"):
+                if await request.is_disconnected():
+                    print("DEBUG: Client disconnected. Stopping research.")
+                    break
+                
                 print(f"DEBUG: Graph step output: {output.keys()}")
                 for key, value in output.items():
                     # key is the node name (e.g., 'Topic_Refiner', 'Supervisor')

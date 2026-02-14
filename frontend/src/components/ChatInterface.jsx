@@ -90,8 +90,8 @@ export function ChatInterface({ messages, isLoading, activeAgent, onSend, onStop
                 })}
 
                 {isLoading && (
-                    <div className="flex w-full justify-start animate-fade-in pl-12 bg-transparent">
-                        <div className="flex items-center gap-4 py-2 px-4 rounded-full bg-stone-50 dark:bg-stone-900/50 border border-stone-100 dark:border-stone-800">
+                    <div className="flex w-full flex-col justify-start animate-fade-in pl-12 bg-transparent gap-2">
+                        <div className="flex items-center gap-4 py-2 px-4 rounded-full bg-stone-50 dark:bg-stone-900/50 border border-stone-100 dark:border-stone-800 w-fit">
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-0" />
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-150" />
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-300" />
@@ -99,6 +99,7 @@ export function ChatInterface({ messages, isLoading, activeAgent, onSend, onStop
                                 {activeAgent ? `${activeAgent.replace('_', ' ')} Thinking...` : 'Thinking...'}
                             </span>
                         </div>
+                        <p className="text-xs text-stone-400 ml-2 animate-pulse">It may take some minutes, so hold tight...</p>
                     </div>
                 )}
 

@@ -6,7 +6,7 @@ import { useResearchStream } from '@/hooks/useResearchStream';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Home() {
-  const { messages, isLoading, startResearch, stopResearch } = useResearchStream();
+  const { messages, isLoading, startResearch, stopResearch, activeAgent, status } = useResearchStream();
   const [userMessages, setUserMessages] = useState([]);
 
   const handleSend = (topic) => {
@@ -67,6 +67,8 @@ export default function Home() {
         <ChatInterface
           messages={displayMessages}
           isLoading={isLoading}
+          activeAgent={activeAgent}
+          status={status}
           onSend={handleSend}
           onStop={handleStop}
         />

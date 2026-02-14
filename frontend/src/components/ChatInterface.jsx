@@ -18,13 +18,13 @@ const AGENT_ICONS = {
     'User': User
 };
 
-export function ChatInterface({ messages, isLoading, onSend, onStop }) {
+export function ChatInterface({ messages, isLoading, activeAgent, onSend, onStop }) {
     const [input, setInput] = useState('');
     const endRef = useRef(null);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+    }, [messages, isLoading, activeAgent]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -95,7 +95,9 @@ export function ChatInterface({ messages, isLoading, onSend, onStop }) {
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-0" />
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-150" />
                             <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce delay-300" />
-                            <span className="text-xs font-medium text-stone-400 uppercase tracking-widest ml-2">Thinking</span>
+                            <span className="text-xs font-medium text-stone-400 uppercase tracking-widest ml-2">
+                                {activeAgent ? `${activeAgent.replace('_', ' ')} Thinking...` : 'Thinking...'}
+                            </span>
                         </div>
                     </div>
                 )}

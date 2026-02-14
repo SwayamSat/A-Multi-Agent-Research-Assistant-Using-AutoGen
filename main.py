@@ -78,37 +78,45 @@ async def stream_research_agents(request: ResearchRequest):
             # Send initial status
             yield f"data: {json.dumps({'type': 'status', 'agent': 'Supervisor', 'status': 'planning'})}\n\n"
             
-            # Using stream with stream_mode="values" or "updates"
-            # "updates" gives us the diff produced by the node
-            for output in graph.stream(initial_state):
+            # Using stream with stream_mode="updates" ensures we get the output of each node as it finishes
+            for output in graph.stream(initial_state, stream_mode="updates"):
+                print(f"DEBUG: Graph step output: {output.keys()}")
                 for key, value in output.items():
                     # key is the node name (e.g., 'Topic_Refiner', 'Supervisor')
                     
                     if key == "Supervisor":
                         next_agent = value.get("next", "Unknown")
+                        print(f"DEBUG: Supervisor routing to {next_agent}")
                         
                         # Emit Supervisor thought/decision as a message
                         thought_content = f"Analyzed current state. Deciding next step: **{next_agent}**."
                         yield f"data: {json.dumps({'type': 'message', 'agent': 'Supervisor', 'content': thought_content})}\n\n"
+                        await asyncio.sleep(0.1) # Force yield
                         
                         yield f"data: {json.dumps({'type': 'status', 'agent': next_agent, 'status': 'working'})}\n\n"
+                        await asyncio.sleep(0.1) # Force yield
                     
                     else:
+                        print(f"DEBUG: Agent {key} finished task.")
                         # Worker node content
                         if "messages" in value and value["messages"]:
                             last_msg = value["messages"][-1]
                             content = last_msg.content
                             yield f"data: {json.dumps({'type': 'message', 'agent': key, 'content': content})}\n\n"
+                            await asyncio.sleep(0.1) # Force yield
                             
                             # Log completion of this agent
                             yield f"data: {json.dumps({'type': 'status', 'agent': key, 'status': 'completed'})}\n\n"
+                            await asyncio.sleep(0.1) # Force yield
 
             yield f"data: {json.dumps({'type': 'status', 'agent': 'System', 'status': 'finished'})}\n\n"
+            await asyncio.sleep(0.1) # Force yield
             
         except Exception as e:
+            print(f"ERROR: Stream loop failed: {e}")
             yield f"data: {json.dumps({'type': 'error', 'content': str(e)})}\n\n"
 
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    return StreamingResponse(event_generator(), media_type="text/event-stream", headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache", "Connection": "keep-alive"})
 
 if __name__ == "__main__":
     import uvicorn

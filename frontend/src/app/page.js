@@ -36,7 +36,7 @@ export default function LandingPage() {
           <nav className="hidden sm:flex items-center gap-8 text-sm font-medium text-stone-600 dark:text-stone-400">
             <Link href="#features" className="hover:text-stone-900 dark:hover:text-white transition-colors">Features</Link>
             <Link href="#how-it-works" className="hover:text-stone-900 dark:hover:text-white transition-colors">How it works</Link>
-            <Link href="https://github.com" target="_blank" className="hover:text-stone-900 dark:hover:text-white transition-colors">GitHub</Link>
+            <Link href="https://github.com/SwayamSat/A-Multi-Agent-Research-Assistant-Using-AutoGen" target="_blank" className="hover:text-stone-900 dark:hover:text-white transition-colors">GitHub</Link>
           </nav>
           <div className="h-6 w-px bg-stone-200 dark:bg-stone-800 hidden sm:block"></div>
           <ThemeToggle />
@@ -75,7 +75,7 @@ export default function LandingPage() {
               Start Researching <ArrowRight size={20} />
             </Link>
             <Link
-              href="https://github.com"
+              href="https://github.com/SwayamSat/A-Multi-Agent-Research-Assistant-Using-AutoGen"
               target="_blank"
               className="flex items-center gap-3 px-8 py-4 rounded-full bg-white dark:bg-black border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white font-medium text-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-all active:scale-95"
             >

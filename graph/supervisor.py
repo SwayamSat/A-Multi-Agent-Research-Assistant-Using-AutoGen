@@ -13,6 +13,7 @@ async def supervisor_node(state: AgentState):
     """
     The Supervisor node decides which agent should act next.
     """
+    messages = state["messages"]
     system_prompt = (
         "You are the supervisor of a research team.\n"
         "Your goal is to manage the research workflow: Refine Topic -> Discover Papers -> Synthesize Insights -> Compile Report -> Analyze Gaps.\n"

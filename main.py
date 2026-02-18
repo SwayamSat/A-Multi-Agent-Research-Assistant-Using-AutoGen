@@ -34,7 +34,7 @@ class ResearchRequest(BaseModel):
 def home():
     return {"message": "Welcome to the Multi-Agent Research Assistant API. Use POST /research-stream for real-time updates."}
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 def health_check():
     """
     Health check endpoint to verify backend status.
